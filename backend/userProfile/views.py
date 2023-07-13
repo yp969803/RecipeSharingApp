@@ -11,6 +11,8 @@ from rest_framework.authentication import SessionAuthentication,TokenAuthenticat
 from rest_framework.permissions import IsAuthenticated
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication,TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def getProfile(request,userId):
     user_profile=get_object_or_404(userProfile,userId=userId)
     serializer=userProfileSerializer(instance=user_profile)
