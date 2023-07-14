@@ -7,5 +7,5 @@ urlpatterns=[
     path('delete/<str:dishId>',views.delete),
     path('update/<str:dishId>',views.update),
     path('getUserPost/<str:userId>',views.getUserPost),
-    path('getPost/<str:dishId>',views.getPost)
+    path('getPost/<str:id>',views.getPost)
 ]

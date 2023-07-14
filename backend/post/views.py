@@ -109,11 +109,12 @@ def delete(request,dishId):
         return Response({'message':'some error occured'},status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication,TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def getPost(request,dishId):
+# @authentication_classes([SessionAuthentication,TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def getPost(request , id):
     try: 
-     item=post.objects.filter(dishId=dishId).first()
+     
+     item=post.objects.filter(id=id).first()
      print(item,'hello')
      if not item:
             response_data={"response":"this dish not exist"}
