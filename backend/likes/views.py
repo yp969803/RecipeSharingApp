@@ -29,7 +29,7 @@ def getLikeStatus(request,dishId):
     try:
         userId=request.user.username
         likeId=userId+dishId
-        item=likes.objects.filter(likeId=likeId)
+        item=likes.objects.filter(likeId=likeId).first()
         if not item:
             return Response({'message':'false'},status=status.HTTP_200_OK)
         
@@ -50,7 +50,7 @@ def onClick(request,dishId):
     try:
         userId=request.user.username
         likeId=userId+dishId
-        item=likes.objects.filter(likeId=likeId)
+        item=likes.objects.filter(likeId=likeId).first()
         
         if not item:
             likes.objects.create(userId=userId,dishId=dishId,likeId=likeId,status=True)
