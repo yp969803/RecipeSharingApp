@@ -8,6 +8,7 @@ urlpatterns = [
     path('auth/',include('auth.urls')),
     path('userProfile/',include('userProfile.urls')),
     path('post/',include('post.urls')),
-    path('review/',include('review.urls'))
+    path('review/',include('review.urls')),
+    path('likes/',include('likes.urls'))
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
