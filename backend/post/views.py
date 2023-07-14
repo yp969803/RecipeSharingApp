@@ -25,8 +25,8 @@ def getUserPost(request,userId):
        print(e)
        return Response({'message':'some error occured'},status=status.HTTP_400_BAD_REQUEST)
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication,TokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([SessionAuthentication,TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 def getAllPost(request):
     try:
         items=post.objects.all()
