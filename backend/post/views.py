@@ -50,15 +50,17 @@ def update(request,dishId):
         dishName=request.data['dishName']
         dishPhoto=request.data['dishPhoto']
         dishId=dishId
-        bio=request.data['bio']
-        cusine=request.data['cusine']
+        dishBio=request.data['dishBio']
+        dishCusine=request.data['dishCusine']
+        dishTime = request.data['dishTime']
         item=post.objects.filter(dishId=dishId).first()
         if item is None or userId!=item.userId:
             return Response({'message':'Some error occured'},status=status.HTTP_404_NOT_FOUND)
         item.dishName=dishName
         item.dishPhoto=dishPhoto
-        item.cusine=cusine
-        item.bio=bio
+        item.dishBio=request.data['dishBio']
+        item.dishCuisine=request.data['dishCusine']
+        item.dishTime = request.data['dishTime']
         item.save()
         item_data=dishSerializer(item).data
         return Response({'message':item_data},status=status.HTTP_200_OK)
@@ -74,19 +76,19 @@ def create(request):
         userId=request.user.username
         dishName=request.data['dishName']
         dishPhoto=request.data['dishPhoto']
-        dishId=request.data['dishId']
-        bio=request.data['bio']
-        cusine=request.data['cusine']
-        item=post.objects.filter(dishId=dishId).first()
-        if item :
-            return Response({'message':'this id already exists'},status=status.HTTP_400_BAD_REQUEST)
+        dishBio=request.data['dishBio']
+        dishCuisine=request.data['dishCuisine']
+        dishTime = request.data['dishTime']
+        # item=post.objects.filter(dishId=dishId).first()
+        # if item :
+        #     return Response({'message':'this id already exists'},status=status.HTTP_400_BAD_REQUEST)
         
-        post.objects.create(userId=userId,dishName=dishName,dishPhoto=dishPhoto,dishId=dishId,bio=bio,cusine=cusine)
-        return Response({'message':'dish posted successfully'},status=status.HTTP_200_OK)
+        post.objects.create(userId=userId,dishName=dishName,dishPhoto=dishPhoto,dishBio=dishBio,dishCuisine=dishCuisine)
+        return Response({'message':'dish posted successfully', },status=status.HTTP_200_OK)
 
     except Exception as e:
         print(e)
-        return Response({'message':'some error occured'},status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message':'some error occured' , },status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication,TokenAuthentication])
