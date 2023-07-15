@@ -7,6 +7,7 @@ class likes(models.Model):
     dishId=models.CharField(max_length=20,unique=False)
     likeId=models.CharField(max_length=50,unique=True)
     createdAt=models.DateTimeField(auto_now_add=True)
+    dishPhoto= models.ImageField(max_length=255)
     status=models.BooleanField(default=True)
 
 

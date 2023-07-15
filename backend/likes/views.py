@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .serializers import likeSerializer
 from rest_framework import status
 from .models import likes
+from post.models import post
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import authentication_classes,permission_classes
@@ -51,9 +52,13 @@ def onClick(request,Id):
         userId=request.user.username
         likeId=userId+Id
         item=likes.objects.filter(likeId=likeId).first()
+
+        itemPhoto = post.objects.filter(id=Id).first()
+        print(itemPhoto)
+        dishPhoto = itemPhoto.dishPhoto
         
         if not item:
-            likes.objects.create(userId=userId,dishId=Id,likeId=likeId,status=True)
+            likes.objects.create(userId=userId,dishId=Id,likeId=likeId,dishPhoto=dishPhoto, status=True)
             return Response({'message':'added to likes'},status=status.HTTP_200_OK)
         if item:
             item.delete()

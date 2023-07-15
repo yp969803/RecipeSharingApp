@@ -1,9 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from likes.serializers import likeSerializer
+
 from .serializers import dishSerializer
 from rest_framework import status
 from .models import post
+from likes.models import likes
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import authentication_classes,permission_classes
@@ -124,5 +127,20 @@ def getPost(request , id):
      print(item_data)
      return Response({'message':item_data},status=status.HTTP_200_OK)
     except Exception as e:
+       print(e)
+       return Response({'message':'some error occured'},status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication,TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def getUserLikedPost(request,userId):
+   try: 
+     items=likes.objects.filter(userId=userId)
+    #  if items is None:
+    #         response_data={"response":"this dish not exist"}
+    #         return Response(response_data,status=status.HTTP_400_BAD_REQUEST)
+     item_data=likeSerializer(items,many=True).data
+     return Response({'message':item_data},status=status.HTTP_200_OK)
+   except Exception as e:
        print(e)
        return Response({'message':'some error occured'},status=status.HTTP_400_BAD_REQUEST)
