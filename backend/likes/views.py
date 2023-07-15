@@ -25,10 +25,10 @@ def getStatus(request,dishId):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication,TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def getLikeStatus(request,dishId):
+def getLikeStatus(request,Id):
     try:
         userId=request.user.username
-        likeId=userId+dishId
+        likeId=userId+Id
         item=likes.objects.filter(likeId=likeId).first()
         if not item:
             return Response({'message':'false'},status=status.HTTP_200_OK)
@@ -43,19 +43,21 @@ def getLikeStatus(request,dishId):
         response_data = {"message":"Some error occured"}
         return Response(response_data,status=status.HTTP_400_BAD_REQUEST)
     
-@api_view(['GET'])
+@api_view(['POST'])
 @authentication_classes([SessionAuthentication,TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def onClick(request,dishId):
+def onClick(request,Id):
     try:
         userId=request.user.username
-        likeId=userId+dishId
+        likeId=userId+Id
         item=likes.objects.filter(likeId=likeId).first()
         
         if not item:
-            likes.objects.create(userId=userId,dishId=dishId,likeId=likeId,status=True)
-            return Response({'message':'true'},status=status.HTTP_200_OK)
-        
+            likes.objects.create(userId=userId,dishId=Id,likeId=likeId,status=True)
+            return Response({'message':'added to likes'},status=status.HTTP_200_OK)
+        if item:
+            item.delete()
+            return Response({'message': 'removed from likes'}, status=status.HTTP_200_OK)
         item_data=likeSerializer(item).data
         print(item_data)
         prevStatus=item.status
@@ -68,5 +70,5 @@ def onClick(request,dishId):
         return Response(response_data,status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
-        return Response({'message':'some error occured'},status=status.HTTP_200_OK)
+        return Response({'message':'some error occured'},status=status.HTTP_400_BAD_REQUEST)
 
