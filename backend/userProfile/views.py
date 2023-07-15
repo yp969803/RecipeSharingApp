@@ -44,7 +44,7 @@ def updateProfile(request):
         userId=request.user.username
         name=request.data['name']
         profilePhoto=request.data['profilePhoto']
-        emailId=request.data['emailId']
+        emailId=request.data['emailId'] 
         bio=request.data['bio']
         item=userProfile.objects.filter(userId=userId).first()
         if item is None:
@@ -58,7 +58,27 @@ def updateProfile(request):
         return Response({'profile':item_data},status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
-        return Response({'message':'some error occured'},status=status.HTTP_200_OK)
+        return Response({'message':'some error occured'},status=status.HTTP_404_NOT_FOUND)
+    
+
+@api_view(['PUT'])
+@authentication_classes([SessionAuthentication,TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def updateProfilePicture(request):
+    try:
+        userId=request.user.username
+        profilePhoto=request.data['profilePhoto']
+        item=userProfile.objects.filter(userId=userId).first()
+        if item is None:
+            return Response({'message':'Some error occured'},status=status.HTTP_404_NOT_FOUND)
+        item.profilePhoto=profilePhoto
+        item.save()
+        item_data=userProfileSerializer(item).data
+        return Response({'profile':item_data},status=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return Response({'message':'some error occured'},status=status.HTTP_404_NOT_FOUND)
+
 
 
 

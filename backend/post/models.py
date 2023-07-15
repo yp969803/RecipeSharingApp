@@ -5,7 +5,7 @@ class post(models.Model):
     id=models.AutoField(primary_key=True)
     userId=models.CharField(max_length=20,unique=False)
     dishName=models.CharField(max_length=20)
-    dishPhoto= models.ImageField(upload_to='post')
+    dishPhoto= models.CharField(max_length=500)
     dishBio=models.CharField(max_length=500)
     dishCuisine=models.CharField(max_length=50)
     dishTime=models.IntegerField(default=0)

@@ -5,4 +5,7 @@ urlpatterns=[
     path('getProfile/<str:userId>',views.getProfile),
     path('create',views.createProfile),
     path('update',views.updateProfile),
+    path('updateProfilePicture',views.updateProfilePicture),
+
+
 ]

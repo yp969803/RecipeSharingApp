@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from userProfile.models import userProfile
 
 from rest_framework.decorators import authentication_classes,permission_classes
 from rest_framework.authentication import SessionAuthentication,TokenAuthentication
@@ -29,6 +30,9 @@ def signup(request):
         user.set_password(request.data['password'])
         user.save()
         token=Token.objects.create(user=user)
+        userId = request.data['username']
+        userProfile.objects.create(userId=userId,name="",profilePhoto="pics/blank-profile-picture.png",emailId="",bio="")
+
         return Response({"token":token.key,"user":serializer.data})
     
     return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
