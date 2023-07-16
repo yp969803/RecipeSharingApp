@@ -47,7 +47,9 @@ Prerequisite
 
   venv/Scripts/activate
 
-  python -m pip install django djangorestframework Pillow
+  python -m pip install --upgrade pip
+
+  pip install -r requirements.txt
   
   python manage.py makemigrations
 
