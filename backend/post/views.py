@@ -82,11 +82,11 @@ def create(request):
         dishBio=request.data['dishBio']
         dishCuisine=request.data['dishCuisine']
         dishTime = request.data['dishTime']
-        # item=post.objects.filter(dishId=dishId).first()
-        # if item :
-        #     return Response({'message':'this id already exists'},status=status.HTTP_400_BAD_REQUEST)
+        item=post.objects.filter(dishName = dishName).first()
+        if item :
+            return Response({'message':'this dish already exists'},status=status.HTTP_400_BAD_REQUEST)
         
-        post.objects.create(userId=userId,dishName=dishName,dishPhoto=dishPhoto,dishBio=dishBio,dishCuisine=dishCuisine)
+        post.objects.create(userId=userId,dishName=dishName,dishPhoto=dishPhoto,dishBio=dishBio,dishCuisine=dishCuisine )
         return Response({'message':'dish posted successfully', },status=status.HTTP_200_OK)
 
     except Exception as e:
@@ -117,7 +117,7 @@ def delete(request,dishId):
 def getPost(request , id):
     try: 
      
-     item=post.objects.filter(id=id).first()
+     item=post.objects.filter(dishId=id).first()
      print(item,'hello')
      if not item:
             response_data={"response":"this dish not exist"}

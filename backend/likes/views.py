@@ -53,7 +53,7 @@ def onClick(request,Id):
         likeId=userId+Id
         item=likes.objects.filter(likeId=likeId).first()
 
-        itemPhoto = post.objects.filter(id=Id).first()
+        itemPhoto = post.objects.filter(dishId=Id).first()
         print(itemPhoto)
         dishPhoto = itemPhoto.dishPhoto
         
